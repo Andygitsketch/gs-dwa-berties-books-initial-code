@@ -1,0 +1,11 @@
+<h1>Bargain Books</h1>
+<ul>
+<% for (let i =0;i <availableBooks.length; i++) {%>
+    <li>
+      <%= availableBooks[i].name %> - £<%= availableBooks[i].price %>
+      <% if (availableBooks[i].price < 20) { %>
+        <strong>(Bargain!)</strong>
+      <% } %>
+    </li>
+  <% } %>
+</ul>
