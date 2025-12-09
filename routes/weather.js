@@ -4,7 +4,7 @@ const router = express.Router()
 const request = require('request')
 
 router.get('/',function(req, res, next){
-    let apiKey = '519c8268f5d76f93419755dc383254a4'
+    let apiKey = process.env.API_WEATHER
             let city = 'london'
             let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
                         

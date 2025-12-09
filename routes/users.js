@@ -67,28 +67,40 @@ router.get('/login', function (req, res, next) {
   res.render('login.ejs')
 })
 
+// let sqlquery = 'SELECT * FROM users WHERE username LIKE ?';
 
-
-router.post('/loggedin', function (req, res, next) {
+router.post('/login', function (req, res, next) {
   const bcrypt = require('bcrypt')
-  // Save user session here, when login is successful
-  req.session.userId = req.sanitize(req.body.username);
-  const plainPassword = req.body.password
 
-// TODO find matching user from database
 
-  // Compare the password supplied with the password in the database
-  bcrypt.compare(req.body.password, hashedPassword, function (err, result) {
-    if (err) {
-      // TODO: Handle error
-    }
-    else if (result == true) {
-      // TODO: Send message
-    }
-    else {
-      // TODO: Send message
-    }
-  })
+    let sqlquery = 'SELECT * FROM users WHERE username LIKE ?';
+    login = ["%"+req.body.username+"%"]
+     db.query(sqlquery, login, (err, result) => {
+            if (err) {
+                next(err)
+            }
+               hashedPassword = result[0].hashedPassword
+
+              // Compare the password supplied with the password in the database
+              bcrypt.compare(req.body.password, hashedPassword, function (err, result) {
+                if (err) {
+                
+                }
+                else if (result == true) {
+                  console.log ('passwords are matching')   // Save user session here, when login is successful
+                  req.session.userId = req.sanitize(req.body.username);
+
+
+                  return res.redirect ('./list');
+                }
+                else {
+                // req.res.send
+                console.log("Passwords  don't  matvh")
+                }
+              })
+            //res.render("listusers.ejs", {availableUsername:result})
+         });
+
 })
 
 // router.get('/audit', function (req, res, next) {
